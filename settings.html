@@ -1,0 +1,432 @@
+Index · HTML
+Copy
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Archive</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&family=Crimson+Text:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:        #05091a;
+    --navy-mid:    #0b1228;
+    --navy-card:   #0d1530;
+    --navy-card2:  #0a1225;
+    --white:       #ffffff;
+    --white-dim:   #c8d4e8;
+    --white-muted: #7a8aaa;
+    --blue-accent: #4a8fde;
+    --blue-bright: #6aaff8;
+    --blue-line:   #1e3a6a;
+    --dim:         #3a4a6a;
+
+    --c-krousen:   #4a8fde;
+    --c-coopon:    #8878d8;
+    --c-nubian:    #38c898;
+    --c-language:  #a0c0f0;
+  }
+
+  html, body {
+    min-height: 100vh;
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Crimson Text', Georgia, serif;
+    overflow-x: hidden;
+  }
+
+  /* ── starfield ── */
+  .stars {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      radial-gradient(1px 1px at  7% 11%, rgba(255,255,255,.70) 0%, transparent 100%),
+      radial-gradient(1px 1px at 18% 72%, rgba(200,225,255,.55) 0%, transparent 100%),
+      radial-gradient(1px 1px at 29%  4%, rgba(255,255,255,.60) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 43% 55%, rgba(255,255,255,.80) 0%, transparent 100%),
+      radial-gradient(1px 1px at 56% 88%, rgba(200,225,255,.50) 0%, transparent 100%),
+      radial-gradient(1px 1px at 64% 22%, rgba(255,255,255,.55) 0%, transparent 100%),
+      radial-gradient(1px 1px at 78% 66%, rgba(200,225,255,.45) 0%, transparent 100%),
+      radial-gradient(1px 1px at 88%  9%, rgba(255,255,255,.50) 0%, transparent 100%),
+      radial-gradient(1px 1px at 93% 48%, rgba(200,225,255,.40) 0%, transparent 100%),
+      radial-gradient(1px 1px at  2% 40%, rgba(255,255,255,.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 36% 33%, rgba(200,225,255,.30) 0%, transparent 100%),
+      radial-gradient(1px 1px at 52% 14%, rgba(255,255,255,.55) 0%, transparent 100%),
+      radial-gradient(1px 1px at 71% 80%, rgba(200,225,255,.40) 0%, transparent 100%),
+      radial-gradient(1px 1px at 83% 37%, rgba(255,255,255,.35) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 14% 57%, rgba(255,255,255,.65) 0%, transparent 100%),
+      radial-gradient(1px 1px at 47%  96%, rgba(200,225,255,.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 97% 83%, rgba(255,255,255,.35) 0%, transparent 100%),
+      radial-gradient(1px 1px at 22% 28%, rgba(255,255,255,.30) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 50%, rgba(200,225,255,.25) 0%, transparent 100%),
+      radial-gradient(2px 2px   at 35% 77%, rgba(255,255,255,.55) 0%, transparent 100%);
+  }
+
+  .vignette {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background: radial-gradient(ellipse at center, transparent 20%, rgba(3,6,18,.80) 100%);
+  }
+
+  /* ── layout ── */
+  .wrap {
+    position: relative; z-index: 1;
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 0 2rem 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── header ── */
+  header {
+    text-align: center;
+    padding: 5.5rem 0 1rem;
+    width: 100%;
+    opacity: 0;
+    animation: up .9s ease forwards .15s;
+  }
+
+  .orn {
+    display: flex; align-items: center; justify-content: center;
+    gap: 1.2rem; margin-bottom: 1.4rem;
+  }
+  .orn-line { width: 70px; height: 1px; }
+  .orn-line-l { background: linear-gradient(to right, transparent, var(--blue-line)); }
+  .orn-line-r { background: linear-gradient(to left,  transparent, var(--blue-line)); }
+  .orn-dot {
+    width: 5px; height: 5px;
+    background: var(--blue-accent); transform: rotate(45deg);
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 5vw, 3.6rem);
+    font-weight: 400;
+    letter-spacing: .22em;
+    color: var(--white);
+    text-shadow: 0 0 60px rgba(74,143,222,.35);
+  }
+
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--white-muted);
+    letter-spacing: .07em;
+    margin-top: .7rem;
+  }
+
+  /* ── divider ── */
+  .divider {
+    display: flex; align-items: center; gap: 1.1rem;
+    width: 100%; max-width: 640px;
+    margin: 2.8rem 0;
+    opacity: 0;
+    animation: up .8s ease forwards .55s;
+  }
+  .divider::before, .divider::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(74,143,222,.3), transparent);
+  }
+  .div-text {
+    font-family: 'Cinzel', serif;
+    font-size: .55rem;
+    letter-spacing: .32em;
+    color: var(--white-muted);
+    white-space: nowrap;
+  }
+
+  /* ── universe map: stacked layout ── */
+  /*
+     Visual logic:
+       Nubian Planet  ←  centre, large
+         └─ Coopon (moon, orbiting)
+       Krousen        ←  Earth-like, separate column
+       Language       ←  standalone, bottom
+  */
+
+  .universe {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 1.4rem;
+  }
+
+  /* Nubian spans full left column, both rows */
+  .card-nubian  { grid-column: 1; grid-row: 1 / 3; }
+  /* Krousen top-right */
+  .card-krousen { grid-column: 2; grid-row: 1; }
+  /* Coopon bottom-right */
+  .card-coopon  { grid-column: 2; grid-row: 2; }
+  /* Language full width below */
+  .card-language { grid-column: 1 / 3; grid-row: 3; }
+
+  .card {
+    position: relative;
+    background: linear-gradient(145deg, rgba(13,21,48,.96), rgba(8,14,35,.98));
+    border: 1px solid rgba(74,143,222,.12);
+    padding: 2.2rem 2rem 2.6rem;
+    text-decoration: none;
+    display: block;
+    overflow: hidden;
+    transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+    opacity: 0;
+    animation: up .75s ease forwards;
+    cursor: pointer;
+  }
+
+  .card:nth-of-type(1) { animation-delay: .75s; }
+  .card:nth-of-type(2) { animation-delay: .9s;  }
+  .card:nth-of-type(3) { animation-delay: 1.05s; }
+  .card:nth-of-type(4) { animation-delay: 1.2s; }
+
+  .card::before {
+    content: ''; position: absolute; inset: 0;
+    opacity: 0; transition: opacity .4s;
+  }
+  .card:hover { transform: translateY(-5px); }
+  .card:hover::before { opacity: 1; }
+
+  /* per-card colours */
+  .card-nubian  { border-top: 2px solid rgba(50,176,135,.65); }
+  .card-nubian::before  { background: radial-gradient(ellipse at 25% 0%, rgba(50,176,135,.1), transparent 60%); }
+  .card-nubian:hover  { border-color: rgba(50,176,135,.9); box-shadow: 0 14px 50px rgba(50,176,135,.16), 0 0 0 1px rgba(50,176,135,.2); }
+
+  .card-krousen { border-top: 2px solid rgba(46,109,180,.65); }
+  .card-krousen::before { background: radial-gradient(ellipse at 25% 0%, rgba(46,109,180,.1), transparent 60%); }
+  .card-krousen:hover { border-color: rgba(46,109,180,.9); box-shadow: 0 14px 50px rgba(46,109,180,.16), 0 0 0 1px rgba(46,109,180,.2); }
+
+  .card-coopon  { border-top: 2px solid rgba(112,96,192,.6); }
+  .card-coopon::before  { background: radial-gradient(ellipse at 25% 0%, rgba(112,96,192,.1), transparent 60%); }
+  .card-coopon:hover  { border-color: rgba(150,136,220,.85); box-shadow: 0 14px 50px rgba(112,96,192,.14), 0 0 0 1px rgba(140,128,210,.22); }
+
+  .card-language { border-top: 2px solid rgba(201,168,76,.55); }
+  .card-language::before { background: radial-gradient(ellipse at 15% 0%, rgba(201,168,76,.08), transparent 55%); }
+  .card-language:hover { border-color: rgba(201,168,76,.9); box-shadow: 0 14px 50px rgba(201,168,76,.13), 0 0 0 1px rgba(201,168,76,.22); }
+
+  /* card internals */
+  .card-emblem {
+    position: absolute; top: 1.1rem; right: 1.3rem;
+    font-size: 2rem; opacity: .1;
+    transition: opacity .35s; z-index: 1; line-height: 1;
+  }
+  .card:hover .card-emblem { opacity: .28; }
+
+  .card-tag {
+    font-family: 'Cinzel', serif;
+    font-size: .55rem;
+    letter-spacing: .3em;
+    color: var(--white-muted);
+    text-transform: uppercase;
+    margin-bottom: .55rem;
+    position: relative; z-index: 1;
+  }
+
+  /* moon badge */
+  .moon-badge {
+    display: inline-block;
+    font-family: 'Cinzel', serif;
+    font-size: .48rem;
+    letter-spacing: .18em;
+    padding: .18rem .55rem;
+    border: 1px solid rgba(136,120,216,.4);
+    color: rgba(180,168,240,.75);
+    text-transform: uppercase;
+    margin-bottom: .7rem;
+    position: relative; z-index: 1;
+  }
+
+  .card-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: .07em;
+    margin-bottom: .35rem;
+    position: relative; z-index: 1;
+    line-height: 1.2;
+  }
+  .card-nubian  .card-title  { color: #5ee8c4; }
+  .card-krousen .card-title  { color: #90c8ff; }
+  .card-coopon  .card-title  { color: #c0b8f8; }
+  .card-language .card-title { color: #b8d8ff; }
+
+  .card-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: .98rem;
+    color: var(--white-muted);
+    position: relative; z-index: 1;
+    margin-bottom: 1.2rem;
+    line-height: 1.5;
+  }
+
+  .card-pills {
+    display: flex; flex-wrap: wrap; gap: .4rem;
+    position: relative; z-index: 1;
+  }
+  .pill {
+    font-family: 'Cinzel', serif;
+    font-size: .5rem;
+    letter-spacing: .14em;
+    padding: .18rem .55rem;
+    border: 1px solid; opacity: .72;
+    text-transform: uppercase;
+  }
+  .card-nubian  .pill { border-color: rgba(50,176,135,.35);  color: #5ed8b4; }
+  .card-krousen .pill { border-color: rgba(46,109,180,.35);  color: #82baf0; }
+  .card-coopon  .pill { border-color: rgba(112,96,192,.35);  color: #b0a8e0; }
+  .card-language .pill { border-color: rgba(201,168,76,.35); color: var(--gold); }
+
+  .card-arrow {
+    position: absolute; bottom: 1.3rem; right: 1.4rem;
+    font-size: 1rem; opacity: .2;
+    transition: opacity .3s, transform .3s;
+    color: var(--white); z-index: 1;
+  }
+  .card:hover .card-arrow { opacity: .65; transform: translate(3px,-3px); }
+
+  /* nubian is tall — add a subtle orbit hint */
+  .card-nubian .orbit-hint {
+    position: absolute;
+    bottom: 2rem; right: 2rem;
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    border: 1px dashed rgba(94,232,196,.15);
+    z-index: 1;
+    pointer-events: none;
+  }
+  .card-nubian .orbit-hint::after {
+    content: '🌑';
+    position: absolute;
+    font-size: .75rem;
+    top: -6px; left: 50%;
+    transform: translateX(-50%);
+    opacity: .35;
+  }
+
+  /* ── footer ── */
+  footer {
+    margin-top: 3rem;
+    text-align: center;
+    border-top: 1px solid rgba(74,143,222,.1);
+    padding-top: 1.8rem;
+    width: 100%;
+    opacity: 0;
+    animation: up .7s ease forwards 1.5s;
+  }
+  footer p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: .85rem;
+    color: var(--white-muted);
+  }
+
+  @keyframes up {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── responsive ── */
+  @media (max-width: 640px) {
+    .universe {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+    }
+    .card-nubian  { grid-column: 1; grid-row: auto; }
+    .card-krousen { grid-column: 1; grid-row: auto; }
+    .card-coopon  { grid-column: 1; grid-row: auto; }
+    .card-language { grid-column: 1; grid-row: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<div class="vignette"></div>
+
+<div class="wrap">
+
+  <header>
+    <div class="orn">
+      <div class="orn-line orn-line-l"></div>
+      <div class="orn-dot"></div>
+      <div class="orn-line orn-line-r"></div>
+    </div>
+    <h1>THE ARCHIVE</h1>
+    <p class="subtitle">A cartography of imagined worlds</p>
+  </header>
+
+  <div class="divider">
+    <span class="div-text">✦ &nbsp; CHOOSE WHERE TO GO &nbsp; ✦</span>
+  </div>
+
+  <div class="universe">
+
+    <a href="nb.html" class="card card-nubian">
+      <span class="card-emblem">🪐</span>
+      <div class="card-tag">World · Planet</div>
+      <div class="card-title">Nubian Planet</div>
+      <div class="card-sub">Another world entirely.<br>Alien species, unknown skies,<br>and a moon of its own.</div>
+      <div class="card-pills">
+        <span class="pill">Alien Life</span>
+        <span class="pill">Cosmology</span>
+        <span class="pill">Ecology</span>
+        <span class="pill">Geography</span>
+      </div>
+      <div class="orbit-hint"></div>
+      <span class="card-arrow">↗</span>
+    </a>
+
+    <a href="ks.html" class="card card-krousen">
+      <span class="card-emblem">🐋</span>
+      <div class="card-tag">World · Real Earth</div>
+      <div class="card-title">Krousen Republic</div>
+      <div class="card-sub">Grounded, realistic, closed.<br>A nation on our world.</div>
+      <div class="card-pills">
+        <span class="pill">History</span>
+        <span class="pill">Culture</span>
+        <span class="pill">Government</span>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+
+    <a href="co.html" class="card card-coopon">
+      <span class="card-emblem">🌙</span>
+      <div class="moon-badge">Moon of Nubian</div>
+      <div class="card-title">Coopon Nation</div>
+      <div class="card-sub">Your sanctuary. Only you live here.<br>Dreamlike, half-remembered.</div>
+      <div class="card-pills">
+        <span class="pill">Refuge</span>
+        <span class="pill">Personal</span>
+        <span class="pill">Lore</span>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+
+    <a href="lg.html" class="card card-language">
+      <span class="card-emblem">𓂀</span>
+      <div class="card-tag">Language · Standalone</div>
+      <div class="card-title">Kroosen Language</div>
+      <div class="card-sub">Scripts, phonology, grammar, and the lexicon of an invented tongue.</div>
+      <div class="card-pills">
+        <span class="pill">Phonology</span>
+        <span class="pill">Writing System</span>
+        <span class="pill">Grammar</span>
+        <span class="pill">Lexicon</span>
+        <span class="pill">Vocabulary</span>
+      </div>
+      <span class="card-arrow">↗</span>
+    </a>
+
+  </div>
+
+  <footer>
+    <p>These worlds exist because you made them.</p>
+  </footer>
+
+</div>
+</body>
+</html>
